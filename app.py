@@ -1,7 +1,12 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
+from socket import gethostname
 import os
  
+# App config.
+DEBUG = True
 app = Flask(__name__)
+app.config.from_object(__name__)
+app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
  
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -37,5 +42,5 @@ def logout():
     return render_template('loggedout.html')
 
 if __name__ == "__main__":
-    app.secret_key = os.urandom(12)
-    app.run(debug=True)
+    if 'liveconsole' not in gethostname():
+        app.run()
