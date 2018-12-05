@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  </head>
+  <body>
+
+<form action="/addresource" method="POST">
+
+<ul class="nav justify-content-end">
+  <li class="nav-item">
+    <a class="nav-link active" href="/menu">Main Menu</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/logout">Logout</a>
+  </li>
+</ul>
+
+<div class="container-Fluid">
+  <div class="header">
+    <h1>Add New Resource</h1>
+  </div>
+  <div class="jumbotron">
+    <h2>New Resource Info</h2>
+      <form>
+        <div>
+          <label>Resource ID : {{resource_id}}</label>
+          <label>Owner Name: {{username}}</label>
+          <div class="form-group row">
+            <label for="inputResourceName1" class="col-sm-2 col-form-label font-weight-bold">Resource Name</label>
+            <div class="col-sm-10">
+              <input type="text" name="resourcename" class="form-control" id="inputResourceName1" placeholder="Please Add Resource" required="">
+            </div>
+          </div>
+
+      <div class="form-group row">
+        <div class="form-group col-xs-6">
+          <label for="all_classes">Select Primary ESF</label>
+          <select name="prim_esf" class="form-control" id="all_classes">
+            {% for o in all_classes %}
+                    <option value="{{ o }}">{{ o }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group row">
+          <label for="all_entries">Select Secondary ESF(s)</label>
+          <select multiple name="add_esf" class="form-control" id="all_entries">
+            {% for o in all_entries %}
+                    <option value="{{ o }}">{{ o }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+          <div class="form-group row">
+            <label for="inputModel1" class="col-sm-2 col-form-label font-weight-bold">Model</label>
+            <div class="col-sm-10">
+              <input type="text" name="model" class="form-control" id="inputModel1" placeholder="Option">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputCapabilities1" class="col-sm-2 col-form-label font-weight-bold">Capabilities</label>
+            <div class="col-sm-10">
+              <input type="text" name="capabilities" class="form-control" id="inputCapabilities1" placeholder="Describe Capabilities of Resource (separate by commas)">
+            </div>
+          </div>
+          <label class="font-weight-bold">Home Location</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Latitude</span>
+              </div>
+              <input type="text" name="lat" class="form" aria-label="Amount">
+              <div class="input-group-append">
+                <span class="input-group-text">.00000</span>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Longitude</span>
+              </div>
+              <input type="text" name="long" class="form" aria-label="Amount">
+              <div class="input-group-append">
+                <span class="input-group-text">.00000</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+              <label class="font-weight-bold">Max Distance</label>
+              <input type="text" name = "maxdist" class="form-control">
+              <label>kilometers</label>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputModel1" class="col-sm-2 col-form-label font-weight-bold">Cost</label>
+              <div class="col-sm-10">
+                <input type="text" name="cost" class="form-control" id="inputModel1" placeholder="">
+              </div>
+              <label class="col-sm-2 col-form-label font-weight-bold" for="inlineFormCustomSelect">per</label>
+              <div class="col-sm-10">
+                <select name="costper" class="form-control" id="inlineFormCustomSelect">
+            		{% for o in cost_per_entries %}
+                    		<option value="{{ o }}">{{ o }}</option>
+           		 {% endfor %}
+                </select>
+              </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-lg-7.5 lg-1">
+            </div>
+            <div class="col-md-2 mb-1">
+	    <input type="submit" value="Add Resource" class="btn btn-primary btn-large btn-block" >
+            </div>
+          </div>
+      </form>
+  </div>
+
+</div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+      
+        $('#all_classes').change(function(){
+	
+          $.getJSON('/_update_dropdown', {
+            selected_class: $('#all_classes').val()
+	    
+          }).success(function(data) {
+                $('#all_entries').html(data.html_string_selected);
+           })
+        });
+        $('#process_input').bind('click', function() {
+	
+            $.getJSON('/_process_data', {
+                selected_class: $('#all_classes').val(),
+                selected_entry: $('#all_entries').val(),
+		
+		
+            }).success(function(data) {	    	    
+                $('#processed_results').text(data.random_text);
+            })
+          return false;
+	  
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<form action="/addincident" method="POST">
+
+<ul class="nav justify-content-end">
+  <li class="nav-item">
+    <a class="nav-link active" href="/menu">Main Menu</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/logout">Logout</a>
+  </li>
+</ul>
+
+    <div class="jumbotron">
+      <h1>New Incident Info</h1>
+      <form>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label font-weight-bold" for="inlineFormCustomSelect">Declaration</label>
+              <div class="col-sm-10">
+                <select name=declaration class="form-control" id="inlineFormCustomSelect">
+             		{% for o in all_declarations %}
+	                    <option value="{{ o }}">{{ o }}</option>
+        	    	{% endfor %}
+                </select>
+              </div>
+          </div>
+
+      <label>Incident ID (assigned automatically on save)</label>
+
+        <div>
+            <label class="font-weight-bold">Date</label>
+            <div>
+              <input name=date type="date" class="form-control">
+            </div>
+        </div>
+	<label class="font-weight-bold"> Description </label>
+        <div>
+
+      <input name="inc_description" type="text" class="form-control" required>
+
+      <label class="font-weight-bold"> Location </label>
+        <div>
+      <label> Latitude </label>
+      <input name="lat" type="text" class="form-control" required>
+      <label> Longitude </label>
+      <input name="long" type="text" class="form-control" required>
+          </div>
+
+          <div class="row">
+            <div class="col-md-1 mb-1">
+            <button id="cancel" class="btn btn-primary float-right" type="submit">Cancel</button>
+            </div>
+            <div class="col-md-1 mb-1">
+            <input type="submit" value="Add Incident" class="btn btn-primary btn-large btn-block" >
+            </div>
+          </div>
+    </form>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ERMS</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</head>
+<body>
+       <nav class="navbar fixed-bottom navbar-light bg-light">
+        <a class="navbar-brand" href="/logout">Exit</a>
+       </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Emergency Resource Management System</h1>
+        </div>
+        <!-- main menu -->
+        <div class="jumbotron">
+            <div class="page-header">
+            <h2>Main Menu</h2>
+            <h5>{{res}}</h5></div>
+            <div class="vertical-menu">
+                <p><a class="btn btn-primary btn-block" href="/addresource" role="button">Add Resource</a></p>
+                <p><a class="btn btn-primary btn-block"  href="/addincident" role="button">Add Emergency Incident</a></p>
+                <p><a class="btn btn-primary btn-block" href="/searchresource" role="button">Search Resources</a></p>
+                <p><a class="btn btn-primary btn-block" href="/resourcestatus" role="button">Resource Status</a></p>
+                <p><a class="btn btn-primary btn-block" href="/report" role="button">Resource Report</a></p>
+            </div>
+
+        </div>
+
+    </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+</body>
+</html>

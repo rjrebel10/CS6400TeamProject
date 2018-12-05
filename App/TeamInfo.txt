@@ -1,0 +1,15 @@
+Team06:
+Dale Park email: dpark327@gatech.edu
+Rishi Rebello email: rrebello7@gatech.edu
+Samhita Noone email: snoone3@gatech.edu
+Jijiao Zeng email: jzeng63@gatech.edu
+
+
+File Name                          Line Number
+_ _ _ _ _ _ _ _ _ _ _ _ _          _ _ _ _ _ _ _ _ _ _ _ _ _
+
+app.py			           29, 77, 92, 133, 164, 170, 202, 215, 217, 239, 252, 280, 351
+
+sqlfunctions.py	                   13, 35, 56, 83, 100, 118, 137, 160, 188, 217, 257, 278, 284, 306, 313
+
+team06_p3_schema.txt               1 to 181

@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<form action="/searchresource" method="POST">
+
+<ul class="nav justify-content-end">
+  <li class="nav-item">
+    <a class="nav-link active" href="/menu">Main Menu</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/logout">Logout</a>
+  </li>
+</ul>
+
+<div class="container-Fluid">
+  <div class="header">
+    <h1></h1>
+  </div>
+  <div class="jumbotron">
+    <h2>Search Resource</h2>
+      <form>
+        <div>
+          <label></label>
+          <label></label>
+          <div class="form-group row">
+            <label for="inputResourceName1" class="col-sm-2 col-form-label font-weight-bold">Keyword</label>
+            <div class="col-sm-10">
+              <input name ="keyword" type="text" class="form-control" id="inputResourceName1" placeholder="Please separate keywords by commas" required="">
+            </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label font-weight-bold" for="inlineFormCustomSelect">ESF</label>
+              <div class="col-sm-10">
+                <select name="esf" class="form-control" id="inlineFormCustomSelect">
+                    <option value=""></option>
+                    {% for o in esfs %}
+                    	<option value="{{ o }}">{{ o }}</option>
+	            {% endfor %}
+                </select>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label font-weight-bold" for="inlineFormCustomSelect">Location</label>
+              <div class="col-sm-2">
+                <input name="location" type="text" class="form-control" id="inlineFormCustomSelect" placeholder="Enter Maximum Distance">
+                
+                </select>
+              </div><label> Kilometers of incident </label>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label font-weight-bold" for="inlineFormCustomSelect">Incident</label>
+              <div class="col-sm-10">
+                <select name = "incident" class="form-control" id="inlineFormCustomSelect">
+                  <option value=""></option>
+                  {% for o in incident %}
+                    <option value="{{ o }}">{{ o }}</option>
+            	  {% endfor %}
+                </select>
+              </div>
+          </div>
+          <div class="form-group row">
+            <label for="return_by1" class="col-sm-2 col-form-label font-weight-bold">Return By</label>
+            <div class="col-sm-10">
+              <input name ="return_by" type="date" class="form-control" id="return_by" required="">
+            </div>
+          </div>
+
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-1 mb-1">
+            <input type="submit" value="Search" class="btn btn-primary btn-large btn-block" >
+            </div>
+          </div>
+      </form>
+  </div>
+
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</body>
+</html>

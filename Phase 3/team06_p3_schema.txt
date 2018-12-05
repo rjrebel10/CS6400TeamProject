@@ -1,0 +1,282 @@
+--
+DROP DATABASE IF EXISTS `cs6400_su18_team06`;
+CREATE DATABASE IF NOT EXISTS `cs6400_su18_team06`;
+USE cs6400_su18_team06;
+
+
+CREATE TABLE Allowable_ESFs (
+esf_description varchar(250) NOT NULL,
+esf_number varchar(50) NOT NULL,
+PRIMARY KEY (esf_number)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE Incident_Declarations (
+declaration varchar(250) NOT NULL,
+abbreviation varchar(250) NOT NULL,
+PRIMARY KEY (abbreviation)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE Cost_Per (
+cost_option varchar(250) NOT NULL,
+PRIMARY KEY (cost_option)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE User (
+username varchar(50) NOT NULL,
+name varchar(250) NOT NULL,
+password varchar(60) NOT NULL,
+PRIMARY KEY (username)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE Individual (
+username varchar(50) NOT NULL,
+job_title varchar(250) NOT NULL,
+date_of_hire date NOT NULL, 
+PRIMARY KEY (username),
+FOREIGN KEY (username)
+   REFERENCES User(username)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE Municipality (
+username varchar(50) NOT NULL,
+municipality_category varchar(250) NOT NULL,
+PRIMARY KEY (username),
+FOREIGN KEY (username)
+   REFERENCES User(username)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE Government_Agency (
+username varchar(50) NOT NULL,
+agency_name_and_local_office varchar(250) NOT NULL,
+PRIMARY KEY (username),
+FOREIGN KEY (username)
+   REFERENCES User(username)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE Company (
+username varchar(50) NOT NULL,
+location_of_headquarters varchar(250) NOT NULL,
+num_employees int NOT NULL,
+PRIMARY KEY (username),
+FOREIGN KEY (username)
+   REFERENCES User(username)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE Resource (
+resource_id int NOT NULL AUTO_INCREMENT,
+username varchar(50) NOT NULL,
+name varchar(250) NOT NULL,
+model varchar(250) DEFAULT NULL,
+capabilities varchar(250) DEFAULT NULL,
+home_loc_lat float(10, 2) NOT NULL,
+home_loc_long float(10, 2) NOT NULL, 
+cost decimal(10, 2) NOT NULL,
+max_dist int DEFAULT NULL,
+res_status varchar(50) DEFAULT 'AVAILABLE' ,
+cost_option varchar(250) NOT NULL,
+PRIMARY KEY (resource_id),
+FOREIGN KEY (username)
+   REFERENCES User(username),
+FOREIGN KEY (cost_option)
+   REFERENCES Cost_Per(cost_option)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE Incident (
+username varchar(50) NOT NULL,
+incident_id varchar(50) NOT NULL,
+inc_description varchar(250) DEFAULT NULL,
+date date DEFAULT NULL,
+loc_lat float(10, 2) DEFAULT NULL,
+loc_long float(10, 2) DEFAULT NULL,
+abbreviation varchar(250) DEFAULT NULL,
+PRIMARY KEY (incident_id),
+FOREIGN KEY (username)
+   REFERENCES User (username),
+FOREIGN KEY (abbreviation)
+   REFERENCES Incident_Declarations (abbreviation)
+)ENGINE=MyISAM;
+
+CREATE TABLE Requests (
+resource_id int NOT NULL,
+incident_id varchar(50) NOT NULL,
+request_date date NOT NULL,
+deployed_date date DEFAULT NULL, 
+return_by date NOT NULL,
+req_status varchar(20) DEFAULT 'PENDING',
+PRIMARY KEY (resource_id, incident_id),
+FOREIGN KEY (resource_id)   
+   REFERENCES Resource (resource_id),
+FOREIGN KEY (incident_id)   
+   REFERENCES Incident(incident_id)
+)ENGINE=MyISAM;
+
+
+CREATE TABLE ESFs (
+esf_id int NOT NULL AUTO_INCREMENT,
+resource_id int NOT NULL,
+esf_number varchar(50) NOT NULL,
+esf_type varchar(250) NOT NULL,
+PRIMARY KEY (esf_id),
+FOREIGN KEY (resource_id)   
+   REFERENCES Resource (resource_id),
+FOREIGN KEY (esf_number)  
+   REFERENCES Allowable_ESFs(esf_number)
+)  ENGINE=MyISAM;
+
+
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Transportation', '1');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Communications', '2');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Public Works and Engineering', '3');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Firefighting', '4');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Emergency Management', '5');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Mass Care, Emergency Assistance, Housing and Human Services', '6');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Logistics Management and Resource Support', '7');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Public Health and Medical Services', '8');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Search and Rescue', '9');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Oil and Hazardous Materials Response', '10');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Agriculture and Natural Resources', '11');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Energy', '12');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Public Safety and Security', '13');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('Long-Term Community Recovery', '14');
+INSERT INTO `allowable_esfs` (`esf_description`, `esf_number`) VALUES ('External Affairs', '15');
+
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Sam', 'Sam', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Jack', 'Jack', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Liz', 'Liz', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Atlanta', 'Atlanta', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Dekalb', 'Dekalb', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Buckhead', 'Buckhead', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Georgia', 'Georgia', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('United States', 'United States', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('FEMA', 'FEMA', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('FBI', 'FBI', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('GA_state_patrol', 'GA_state_patrol', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Humane_Society', 'Humane_Society', 'password');
+INSERT INTO `user` (`username`, `name`, `password`) VALUES ('Red_Cross', 'Red_Cross', 'password');
+
+INSERT INTO `cost_per` (`cost_option`) VALUES ('Hour');
+INSERT INTO `cost_per` (`cost_option`) VALUES ('Day');
+INSERT INTO `cost_per` (`cost_option`) VALUES ('Week');
+INSERT INTO `cost_per` (`cost_option`) VALUES ('Each');
+
+INSERT INTO `government_agency` (`username`, `agency_name_and_local_office`) VALUES ('FEMA', 'FEMA - Atlanta');
+INSERT INTO `government_agency` (`username`, `agency_name_and_local_office`) VALUES ('FBI', 'FBI - NC');
+INSERT INTO `government_agency` (`username`, `agency_name_and_local_office`) VALUES ('GA_state_patrol', 'GA_state_patrol - GA');
+
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10001', 'Atlanta', 'Fire Truck', '', 'Fire Suppression', '40.335169', '-78.91141', '100', '3592', 'Available', 'hour');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10002', 'Atlanta', 'Ambulance', '2018', '', '30.23998', '-92.180929', '1000', '9541', 'Available', 'day');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10003', 'Buckhead', 'Salt Truck', '2017', 'Ice Melting', '40.2389', '-74.0303', '779', '6596', 'Available', 'hour');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10004', 'Buckhead', 'Ambulance', '2016', '', '33.768703', '-84.394732', '221', '5666', 'Deployed', 'hour');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10005', 'Dekalb', 'Video Camera', '', '', '41.123314', '-87.861696', '500', '4231', 'Available', 'each');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10006', 'Dekalb', 'Pothole Filler', '', '', '33.768747', '-84.39144', '887', '4584', 'Available', 'week');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10007', 'FBI', 'Police Car', '', 'Patrolling, Onboard Computer', '40.592584', '-75.443995', '605', '5683', 'Available', 'each');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10008', 'FBI', 'FBI Van', '2018', '', '38.906725', '-77.014991', '564', '469', 'Available', 'day');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10009', 'FEMA', 'Ambulance', '2017', '', '34.511741', '-117.415938', '947', '9460', 'Available', 'hour');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10010', 'FEMA', 'Ambulance', '2016', '', '34.93798', '-81.941898', '244', '259', 'Available', 'hour');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10011', 'GA_state_patrol', 'Police Car', '', 'Patrolling, Onboard Computer', '30.498302', '-92.427354', '741', '5774', 'Available', 'each');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10012', 'GA_state_patrol', 'Police Car', '', 'Patrolling, Onboard Computer', '36.170561', '-85.518754', '668', '3921', 'Available', 'week');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10013', 'Georgia', 'Truck', '', '', '43.144956', '-77.602956', '343', '982', 'Available', 'each');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10014', 'Georgia', 'Van', '', '', '30.478263', '-90.954415', '862', '3349', 'Available', 'day');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10015', 'Humane_Society', 'Van', '', '', '29.8766', '-92.0544', '647', '5310', 'Available', 'hour');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10016', 'Humane_Society', 'Truck', '', '', '29.951841', '-90.091428', '403', '8007', 'Available', 'hour');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10017', 'Jack', 'Hummer', '2018', '', '33.086167', '-83.231122', '249', '2973', 'Available', 'each');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10018', 'Jack', 'Hummer', '2017', '', '35.983339', '-78.845625', '771', '1088', 'Available', 'week');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10019', 'Liz', 'Fire Truck', '2016', 'Fire Suppression', '47.02475', '-122.3641', '625', '4053', 'Available', 'each');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10020', 'Liz', 'Hummer', '', '', '30.3532', '-97.705728', '330', '5478', 'Available', 'day');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10021', 'Red_Cross', 'Ambulance', '', '', '36.951836', '-84.082958', '260', '1106', 'Available', 'day');
+
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10022', 'Sam', 'Fire Truck', '', 'Fire Suppression', '36.600068', '-88.305924', '893', '7083', 'Available', 'each');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10023', 'Sam', 'Hummer', '2018', '', '30.260233', '-97.726994', '490', '7486', 'Available', 'week');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10024', 'United States', 'Ambulance', '2017', '', '42.369574', '-71.041797', '538', '6109', 'Available', 'each');
+INSERT INTO `resource` (`resource_id`, `username`, `name`, `model`, `capabilities`, `home_loc_lat`, `home_loc_long`, `cost`, `max_dist`, `res_status`, `cost_option`) VALUES ('10025', 'United States', 'Tank', '2016', '', '42.400622', '-71.132003', '241', '4512', 'Available', 'day');
+
+INSERT INTO `company` (`username`, `location_of_headquarters`, `num_employees`) VALUES ('Humane_Society', 'New Orleans', '400');
+INSERT INTO `company` (`username`, `location_of_headquarters`, `num_employees`) VALUES ('Red_Cross', 'New York', '500');
+
+INSERT INTO `incident_declarations` (`declaration`, `abbreviation`) VALUES ('Major Disaster Declaration', 'MD');
+INSERT INTO `incident_declarations` (`declaration`, `abbreviation`) VALUES ('Emergency Declaration', 'ED');
+INSERT INTO `incident_declarations` (`declaration`, `abbreviation`) VALUES ('Fire Management Assistance', 'FM');
+INSERT INTO `incident_declarations` (`declaration`, `abbreviation`) VALUES ('Fire Suppression Authorization', 'FS');
+
+INSERT INTO `individual` (`username`, `job_title`, `date_of_hire`) VALUES ('Sam', 'Analyst', '2018-01-01');
+INSERT INTO `individual` (`username`, `job_title`, `date_of_hire`) VALUES ('Jack', 'Data Scientist', '2018-01-11');
+INSERT INTO `individual` (`username`, `job_title`, `date_of_hire`) VALUES ('Liz', 'Project Manager', '2018-01-10');
+
+INSERT INTO `municipality` (`username`, `municipality_category`) VALUES ('Atlanta', 'city');
+INSERT INTO `municipality` (`username`, `municipality_category`) VALUES ('Dekalb', 'county');
+INSERT INTO `municipality` (`username`, `municipality_category`) VALUES ('Buckhead', 'city');
+INSERT INTO `municipality` (`username`, `municipality_category`) VALUES ('Georgia', 'state');
+INSERT INTO `municipality` (`username`, `municipality_category`) VALUES ('United States', 'country');
+
+INSERT INTO `incident` (`username`, `incident_id`, `inc_description`, `date`, `loc_lat`, `loc_long`, `abbreviation`) VALUES ('Liz', 'FS-1', 'Fire', '2018-07-01', '40.335169', '-78.91141', 'FS');
+INSERT INTO `incident` (`username`, `incident_id`, `inc_description`, `date`, `loc_lat`, `loc_long`, `abbreviation`) VALUES ('Atlanta', 'ED-1', 'Flood', '2018-07-02', '30.23998', '-92.180929', 'ED');
+INSERT INTO `incident` (`username`, `incident_id`, `inc_description`, `date`, `loc_lat`, `loc_long`, `abbreviation`) VALUES ('United States', 'FM-1', 'Earthquake', '2018-07-03', '40.2389', '-74.0303', 'FM');
+INSERT INTO `incident` (`username`, `incident_id`, `inc_description`, `date`, `loc_lat`, `loc_long`, `abbreviation`) VALUES ('FEMA', 'ED-2', 'Flood', '2018-07-04', '33.768703', '-84.394732', 'ED');
+INSERT INTO `incident` (`username`, `incident_id`, `inc_description`, `date`, `loc_lat`, `loc_long`, `abbreviation`) VALUES ('FBI', 'FS-2', 'Fire', '2018-07-05', '41.123314', '-87.861696', 'FS');
+INSERT INTO `incident` (`username`, `incident_id`, `inc_description`, `date`, `loc_lat`, `loc_long`, `abbreviation`) VALUES ('Humane_Society', 'MD-1', 'Tornado', '2018-07-06', '33.768747', '-84.39144', 'MD');
+
+INSERT INTO `requests` (`resource_id`, `incident_id`, `request_date`, `deployed_date`, `return_by`, `req_status`) VALUES ('10001', 'FS-1', '2018-07-01', NULL, '2018-07-11', 'PENDING');
+INSERT INTO `requests` (`resource_id`, `incident_id`, `request_date`, `deployed_date`, `return_by`, `req_status`) VALUES ('10004', 'ED-1', '2018-07-02', '2018-07-18', '2018-08-12', 'DEPLOYED');
+INSERT INTO `requests` (`resource_id`, `incident_id`, `request_date`, `deployed_date`, `return_by`, `req_status`) VALUES ('10009', 'FM-1', '2018-07-03', NULL, '2018-07-13', 'PENDING');
+INSERT INTO `requests` (`resource_id`, `incident_id`, `request_date`, `deployed_date`, `return_by`, `req_status`) VALUES ('10025', 'ED-2', '2018-07-04', NULL, '2018-07-14', 'PENDING');
+INSERT INTO `requests` (`resource_id`, `incident_id`, `request_date`, `deployed_date`, `return_by`, `req_status`) VALUES ('10001', 'FS-2', '2018-07-05', NULL, '2018-07-15', 'PENDING');
+INSERT INTO `requests` (`resource_id`, `incident_id`, `request_date`, `deployed_date`, `return_by`, `req_status`) VALUES ('10001', 'MD-1', '2018-07-06', NULL, '2018-07-16', 'PENDING');
+INSERT INTO `requests` (`resource_id`, `incident_id`, `request_date`, `deployed_date`, `return_by`, `req_status`) VALUES ('10004', 'MD-1', '2018-07-07', NULL, '2018-07-17', 'PENDING');
+INSERT INTO `requests` (`resource_id`, `incident_id`, `request_date`, `deployed_date`, `return_by`, `req_status`) VALUES ('10003', 'MD-1', '2018-07-07', NULL, '2018-07-17', 'PENDING');
+
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (1, '10001', '1', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (2, '10002', '2', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (3, '10003', '3', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (4, '10004', '4', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (5, '10005', '5', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (6, '10006', '6', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (7, '10007', '7', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (8, '10008', '8', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (9, '10009', '9', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (10, '10010', '10', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (11, '10011', '11', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (12, '10012', '12', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (13, '10013', '13', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (14, '10014', '14', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (15, '10015', '15', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (16, '10016', '1', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (17, '10017', '2', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (18, '10018', '3', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (19, '10019', '4', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (20, '10020', '5', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (21, '10021', '6', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (22, '10022', '7', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (23, '10023', '8', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (24, '10024', '9', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (25, '10025', '10', 'Primary');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (26, '10001', '1', 'Additional');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (27, '10002', '2', 'Additional');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (28, '10003', '3', 'Additional');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (29, '10004', '1', 'Additional');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (30, '10005', '5', 'Additional');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (31, '10006', '6', 'Additional');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (32, '10007', '7', 'Additional');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (33, '10008', '8', 'Additional');
+INSERT INTO `esfs` (`esf_id`, `resource_id`, `esf_number`, `esf_type`) VALUES (34, '10009', '9', 'Additional');
+
+ALTER TABLE resource
+ADD FULLTEXT INDEX `FullText` 
+(`username`, `name`, `model`, `capabilities`, `res_status`, `cost_option`);
+
+ALTER TABLE esfs
+ADD FULLTEXT INDEX `FullText` 
+(`esf_type`);
+
+ALTER TABLE requests
+ADD FULLTEXT INDEX `FullText` 
+(`req_status`);
+
